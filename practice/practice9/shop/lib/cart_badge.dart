@@ -15,7 +15,6 @@ class CartBadge extends StatelessWidget {
     // cart row) does not change count, so the badge stays still.
     // (Level 3 first used context.watch<Cart>().count here.)
     final n = context.select<Cart, int>((c) => c.count);
-    //final n = context.watch<Cart>().count;
     return IconButton(
       icon: Badge(
         label: Text('$n'),

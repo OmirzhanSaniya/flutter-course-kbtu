@@ -40,3 +40,11 @@ Pressing + on a cart row three times:
 
 Same model, same taps, one line changed in one widget.
 
+## Where does it live?
+
+| Value | Home | Why |
+|---|---|---|
+| The cart | **provided** | Two routes (Books and Cart) and the badge need the same object, far apart in the tree. `ChangeNotifierProvider` above `MaterialApp` holds it once; each widget subscribes where it shows the value. |
+| The search text in a search field in the Books AppBar | **ephemeral** | Only that one field and that one list care about it. It lives in the field's own `State` (a controller) and dies with the screen. |
+| Whether the Cart screen's total is expanded or collapsed | **ephemeral** | A purely visual detail of one widget. Nobody else needs it, so a `bool` in a small `StatefulWidget` is enough. |
+| The theme mode (dark-mode switch) | **provided** (or lifted) | `MaterialApp` reads it at the top, but the switch sits deep in a settings screen. Many widgets need to read or change it, so it goes in a provider above `MaterialApp`. With only one reader above, a lifted `StatefulWidget` would also do. |

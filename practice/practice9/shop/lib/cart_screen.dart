@@ -6,11 +6,42 @@ import 'models/cart.dart';
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
 
+  /// The QUESTION lives in the widget (dialog, context). The CLEARING lives
+  /// in the model.
+  Future<void> _clear(BuildContext context) async {
+    final sure = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: const Text('Clear cart?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(false),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(true),
+            child: const Text('Clear'),
+          ),
+        ],
+      ),
+    );
+    // After an await: is this screen still alive? And only on a clear "yes".
+    if (sure != true || !context.mounted) return;
+    context.read<Cart>().clear();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Cart'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.delete_sweep),
+            tooltip: 'Clear cart',
+            onPressed: () => _clear(context),
+          ),
+        ],
       ),
       body: Column(
         children: [

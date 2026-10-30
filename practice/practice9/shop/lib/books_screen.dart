@@ -11,7 +11,6 @@ class BooksScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     debugPrint('BooksScreen build');
-    //context.watch<Cart>();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Books'),
@@ -35,7 +34,16 @@ class _BookRow extends StatelessWidget {
 
   void _add(BuildContext context) {
     // read: a one-time action inside a callback. It does not subscribe.
-    context.read<Cart>().add(book);
+    final ok = context.read<Cart>().add(book);
+    // The model only answered true/false. The widget decides what to show.
+    if (ok) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Added'),
+          duration: Duration(seconds: 1),
+        ),
+      );
+    }
   }
 
   @override
