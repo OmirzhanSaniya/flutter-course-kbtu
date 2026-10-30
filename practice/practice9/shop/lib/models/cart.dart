@@ -3,13 +3,10 @@
 import 'package:flutter/foundation.dart';
 
 import 'book.dart';
-//import 'package:flutter/widgets.dart';
 
 class Cart extends ChangeNotifier {
   // Private: outside code cannot change the cart behind its back.
-  //Cart(this.context);
   final List<Book> _items = [];
-  //final BuildContext context;
 
   /// A read-only copy: cart.items.add(...) throws
   /// "Unsupported operation: Cannot add to an unmodifiable list".
