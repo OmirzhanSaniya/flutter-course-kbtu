@@ -28,3 +28,15 @@ Loud (`context.watch` inside `onPressed`):
 Silent (`context.read<Cart>().count` in the badge): no error at all. It
 compiles and runs, and the badge is frozen at 0 forever, because nobody said
 "I depend on the cart".
+
+## Level 4: rebuild counter (badge)
+
+Pressing + on a cart row three times:
+
+| Badge subscribes with | `badge build` printed |
+|---|---|
+| `context.watch<Cart>().count` | **3** (the count did not change, but the badge rebuilt) |
+| `context.select<Cart, int>((c) => c.count)` | **0** (removing a book prints **1**) |
+
+Same model, same taps, one line changed in one widget.
+

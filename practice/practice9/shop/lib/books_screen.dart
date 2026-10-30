@@ -11,6 +11,7 @@ class BooksScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     debugPrint('BooksScreen build');
+    //context.watch<Cart>();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Books'),
@@ -25,25 +26,32 @@ class BooksScreen extends StatelessWidget {
   }
 }
 
+/// A row is its own widget so that it has its own context: it subscribes
+/// for itself, and only for what it shows.
 class _BookRow extends StatelessWidget {
   const _BookRow({required this.book});
 
   final Book book;
 
+  void _add(BuildContext context) {
+    // read: a one-time action inside a callback. It does not subscribe.
+    context.read<Cart>().add(book);
+  }
+
   @override
   Widget build(BuildContext context) {
     debugPrint('row ${book.title}');
-    // watch inside build: the row depends on the cart.
-    final inCart = context.watch<Cart>().items.contains(book);
+    // This row depends only on "is MY book in the cart". select rebuilds the
+    // row only when that answer changes. (Level 3 used
+    // context.watch<Cart>().items.contains(book).)
+    final inCart = context.select<Cart, bool>((c) => c.qtyOf(book) > 0);
     return ListTile(
       title: Text(book.title),
       subtitle: Text(book.author),
       trailing: inCart
           ? const Text('Added')
           : OutlinedButton(
-              // read inside a callback: a one-time action, no subscription.
-              onPressed: () => context.read<Cart>().add(book),
-              //onPressed: () => context.watch<Cart>().add(book),
+              onPressed: () => _add(context),
               child: const Text('Add'),
             ),
     );
