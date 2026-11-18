@@ -1,0 +1,12 @@
+include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  exclude:
+    - build/**
+    - android/**
+    - ios/**
+
+linter:
+  rules:
+    unawaited_futures: true # from Practice 10
+    avoid_print: true # Practice 13: log() or debugPrint only
