@@ -6,7 +6,7 @@ Labs and practices for the course *Mobile Application Development with Flutter 1
 `practice/practice14/users_api` — a Flutter app that lists users from a REST API,
 works offline from a cache and keeps the login token in secure storage.
 
-| ![list](docs/list.png) | ![offline](docs/offline.png) |
+| ![list](docs/list.jpg) | ![offline](docs/offline.jpg) |
 |---|---|
 
 - provider + ChangeNotifier, repositories behind interfaces, sealed ApiException
